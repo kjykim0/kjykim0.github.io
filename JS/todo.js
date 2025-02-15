@@ -1,6 +1,7 @@
 const toDoForm = document.querySelector("#todo-form");
 const toDoInput = toDoForm.querySelector("input");
 const toDoList = document.querySelector("#todo-list");
+const removeToDos = document.querySelector("#delete-todos");
 
 let toDos = [];
 
@@ -28,10 +29,15 @@ function paintToDo(newTodo){
     li.appendChild(span);
     li.appendChild(button);
     toDoList.appendChild(li);
+    removeToDos.classList.remove(HIDDEN_CLASSNAME);
 }
 
 function handleToDoSubmit(event){
     event.preventDefault();
+    if(localStorage.getItem("username") === null){
+        toDoInput.value = "";
+        alert("Log in please!");
+    } else{
     const newTodo = toDoInput.value;
     toDoInput.value = "";
     const newTodoObj = {
@@ -41,9 +47,18 @@ function handleToDoSubmit(event){
     toDos.push(newTodoObj);
     paintToDo(newTodoObj);
     saveToDos(newTodo);
+    }
+}
+
+function removeAllTodos(){
+    localStorage.removeItem(TODOS_KEY);
+    toDos = [];
+    toDoList.replaceChildren();
+    removeToDos.classList.add(HIDDEN_CLASSNAME);
 }
 
 toDoForm.addEventListener("submit", handleToDoSubmit);
+removeToDos.addEventListener("click", removeAllTodos);
 
 const savedToDos = localStorage.getItem(TODOS_KEY);
 
@@ -51,4 +66,14 @@ if(savedToDos){
     const parseToDos = JSON.parse(savedToDos);
     toDos = parseToDos;
     parseToDos.forEach(paintToDo);
+}
+
+if(localStorage.getItem("username") === null){
+    removeAllTodos();
+    //toDoForm.classList.add(HIDDEN_CLASSNAME);
+}
+
+
+if(toDos.length === 0){
+    removeToDos.classList.add(HIDDEN_CLASSNAME);
 }

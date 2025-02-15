@@ -13,6 +13,8 @@ function onLoginSubmit(event){
     loginForm.classList.add(HIDDEN_CLASSNAME);
     logoutForm.classList.remove(HIDDEN_CLASSNAME);
     paintGreetings(username);
+    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+    location.reload();
 }
 
 function onLogoutSubmit(event){
@@ -27,9 +29,7 @@ function paintGreetings(username){
 const savedUsername = localStorage.getItem(USERNAME_KEY);
 
 if(savedUsername === null){
-    console.log(loginForm.classList);
     loginForm.classList.remove(HIDDEN_CLASSNAME);
-    console.log(loginForm.classList);
     loginForm.addEventListener("submit", onLoginSubmit);
 } else{
     paintGreetings(savedUsername);
