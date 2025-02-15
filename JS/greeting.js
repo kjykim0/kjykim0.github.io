@@ -13,7 +13,6 @@ function onLoginSubmit(event){
     loginForm.classList.add(HIDDEN_CLASSNAME);
     logoutForm.classList.remove(HIDDEN_CLASSNAME);
     paintGreetings(username);
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
     location.reload();
 }
 

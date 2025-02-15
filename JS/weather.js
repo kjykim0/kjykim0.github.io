@@ -17,8 +17,7 @@ function onGeoError(){
     alert("Can't find you. No weather for you.")
 }
 
+navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
 if(localStorage.getItem("username") !== null){
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
-} else{
     weather.innerText = "Required log in";
-}
+} 
